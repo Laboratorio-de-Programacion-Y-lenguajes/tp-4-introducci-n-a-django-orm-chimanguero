@@ -42,7 +42,14 @@ def libros_sin_disponibilidad():
     Returns:
         QuerySet[Libro]
     """
-    raise NotImplementedError
+    return (
+        Libro.objects.annotate(
+            activos=Count(
+                "prestamo",
+                filter=Q(prestamo__fecha_devolucion__isnull=True),
+            )
+        ).filter(activos=F("cantidad_total"))
+    )
 
 
 def top_n_libros_mas_prestados(n: int):
