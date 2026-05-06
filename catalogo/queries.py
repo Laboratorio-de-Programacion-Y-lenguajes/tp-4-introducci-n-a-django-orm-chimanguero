@@ -62,4 +62,7 @@ def top_n_libros_mas_prestados(n: int):
     Returns:
         QuerySet[Libro] con hasta n elementos, ordenados de más a menos prestados.
     """
-    raise NotImplementedError
+    return (
+        Libro.objects.annotate(total_prestamos=Count("prestamo"))
+        .order_by("-total_prestamos")[:n]
+    )
