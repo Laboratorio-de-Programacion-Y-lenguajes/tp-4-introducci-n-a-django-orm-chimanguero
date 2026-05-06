@@ -28,7 +28,10 @@ def autores_con_mas_de_n_libros(n: int):
     Returns:
         QuerySet[Autor]
     """
-    raise NotImplementedError
+    return (
+        Autor.objects.annotate(cantidad_libros=Count("libro"))
+        .filter(cantidad_libros__gt=n)
+    )
 
 
 def libros_sin_disponibilidad():
