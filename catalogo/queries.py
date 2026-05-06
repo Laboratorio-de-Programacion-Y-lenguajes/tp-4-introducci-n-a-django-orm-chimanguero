@@ -28,10 +28,7 @@ def autores_con_mas_de_n_libros(n: int):
     Returns:
         QuerySet[Autor]
     """
-    return (
-        Autor.objects.annotate(cantidad_libros=Count("libro"))
-        .filter(cantidad_libros__gt=n)
-    )
+    raise NotImplementedError
 
 
 def libros_sin_disponibilidad():
@@ -42,14 +39,7 @@ def libros_sin_disponibilidad():
     Returns:
         QuerySet[Libro]
     """
-    return (
-        Libro.objects.annotate(
-            activos=Count(
-                "prestamo",
-                filter=Q(prestamo__fecha_devolucion__isnull=True),
-            )
-        ).filter(activos=F("cantidad_total"))
-    )
+    raise NotImplementedError
 
 
 def top_n_libros_mas_prestados(n: int):
@@ -62,7 +52,4 @@ def top_n_libros_mas_prestados(n: int):
     Returns:
         QuerySet[Libro] con hasta n elementos, ordenados de más a menos prestados.
     """
-    return (
-        Libro.objects.annotate(total_prestamos=Count("prestamo"))
-        .order_by("-total_prestamos")[:n]
-    )
+    raise NotImplementedError
